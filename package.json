@@ -1,0 +1,14 @@
+{
+  "name": "tabootleg",
+  "version": "1.0.0",
+  "description": "Multiplayer Taboo",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "ws": "^5.1.1"
+  }
+}

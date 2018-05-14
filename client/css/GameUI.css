@@ -1,0 +1,82 @@
+body {
+  margin: 0;
+}
+
+.container {
+  height: 100vh;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 2fr 1fr 1fr 2fr;
+  grid-template-rows: 1fr 1.5fr 1fr 1fr 1fr 1fr 1fr 1fr;
+}
+
+/* 384 x 114 */
+.round {
+  grid-column: 1 / 2;
+  grid-row: 1 / 2;
+  background-image: url('../images/round.jpg');
+}
+
+.round p {
+  margin: 0;
+  padding-right: 10%;
+  padding-top: 4%;
+  color: yellow;
+  text-align: center;
+  font-size: 50px;
+  text-shadow: 2px 2px 4px #000000;
+}
+
+/* 768 x 114 */
+.score-board {
+  grid-column: 3 / 6;
+  grid-row: 1 / 2;
+  background-color: grey;
+}
+
+/* 384 x 114 */
+.timer {
+  grid-column: 7 / 8;
+  grid-row: 1 / 2;
+  background-image: url('../images/timer.jpg');
+}
+
+.timer p {
+  margin: 0;
+  color: yellow;
+  text-align: center;
+  font-size: 75px;
+  text-shadow: 2px 2px 4px #000000;
+}
+
+/* 384 x 171 */
+.score {
+  grid-column: 4 / 5;
+  grid-row: 2 / 3;
+  background-color: green;
+}
+
+
+
+.team1 {
+  grid-column: 1 / 2;
+  grid-row: 3 / 7;
+  background-color: blue;
+}
+
+.team2 {
+  grid-column: 7 / 8;
+  grid-row: 3 / 7;
+  background-color: blue;
+}
+
+.card {
+  grid-column: 4 / 5;
+  grid-row: 3 / 7;
+  background-color: purple;
+}
+
+.current-player {
+  grid-column: 4 / 5;
+  grid-row: 7 / 8;
+  background-color: yellow;
+}
