@@ -22,6 +22,16 @@ class Game {
     this.totPlayer++;
   }
 
+  getPlayers() {
+    var obj = {};
+    obj['data'] = this.team1.slice();
+    for (var i=0; i < this.team2.length; i++) {
+      obj['data'].push(team2[i]);
+    }
+
+    return obj;
+  }
+
 }
 
 module.exports = Game;
