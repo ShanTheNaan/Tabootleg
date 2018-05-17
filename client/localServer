@@ -1,2 +1,2 @@
 #!/bin/bash
-$(Python3 -m http.server)
+$(py -m http.server)

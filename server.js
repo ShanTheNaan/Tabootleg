@@ -8,13 +8,10 @@ console.log("Server is Online!");
 
 wss.on('connection', function connection(ws) {
   console.log("connected");
+
   ws.on('message', function incoming(message) {
     var obj = JSON.parse(message);
-    console.log("Received!");
-    Game.addPlayer(obj.name, ws);
+    console.log("Received!" + message);
+    game.addPlayer(obj.name, ws);
   });
-
-  var players = Game.getPlayers();
-  
-
 });

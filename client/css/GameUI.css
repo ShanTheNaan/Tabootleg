@@ -61,12 +61,61 @@ body {
   grid-column: 1 / 2;
   grid-row: 3 / 7;
   background-color: blue;
+  display: grid;
+  grid-template-columns: auto;
+  grid-template-rows: 1fr 1fr 1fr 1fr;
+  grid-template-areas:
+    "player1"
+    "player2"
+    "player3"
+    "player4";
+}
+
+.t1Player1 {
+  grid-area: player1;
+  background-color: red;
+}
+
+.t1Player2 {
+  grid-area: player2;
+  background-color: yellow;
+}
+
+.t1Player3 {
+  grid-area: player3;
+  background-color: orange;
+}
+
+.t1Player4 {
+  grid-area: player4;
+  background-color: green;
 }
 
 .team2 {
   grid-column: 7 / 8;
   grid-row: 3 / 7;
   background-color: blue;
+  display: grid;
+}
+
+.t2Player1 {
+
+  background-color: red;
+}
+
+.t2Player2 {
+
+  background-color: yellow;
+}
+
+.t2Player3 {
+
+  background-color: orange;
+}
+
+.t2Player4 {
+
+  background-color: green;
 }
 
 .card {
