@@ -14,17 +14,6 @@ class Game {
   }
 
   addPlayer(name, conn) {
-    var playersObj = {};
-    var arr = (this.team1.concat(this.team2)).toString();
-    playersObj['data'] = arr;
-    // for (var i=0; i < arr.length; i++) {
-    //   arr[i] = JSON.stringify(arr[i]);
-    // }
-    // playersObj['data'] =
-    // console.log(playersObj);
-    conn.send(JSON.stringify(playersObj));
-
-    this.sendToAll({"id":"newPlayer", "name": name});
 
     if (this.totPlayer%2 == 0) {
       this.team1.push(new Player(name, conn));
@@ -33,26 +22,53 @@ class Game {
     }
     this.totPlayer++;
 
+    var obj = {'id': 'allPlayers'};
+     obj['data'] = this.allPlayers();
+    conn.send(JSON.stringify(obj));
+
+    this.sendToAll(JSON.stringify({"id":"newPlayer", "name": name}), name);
+
   }
 
-  getPlayers() {
-    var obj = {};
-    obj['data'] = this.team1.slice();
-    for (var i=0; i < this.team2.length; i++) {
-      obj['data'].push(team2[i]);
+  removePlayer (conn) {
+    for (var i=0; i < team1.length; i++) {
+      if (team1[i].conn == conn) {
+
+        break;
+      }
     }
 
-    return obj;
+    for (var i=0; i < team2.length; i++) {
+      if (team2[i].conn == conn) {
+
+        break;
+      }
+    }
+
   }
 
-  sendToAll (msg) {
-    this.sendToTeam(msg, this.team1);
-    this.sendToTeam(msg, this.team2);
+  allPlayers() {
+    var arr = [];
+
+    for (var i=0; i < Math.floor(this.totPlayer / 2); i++) {
+      arr.push(this.team1[i].name);
+      arr.push(this.team2[i].name);
+    }
+    if (this.totPlayer%2 == 1) {
+      arr.push(this.team1[Math.floor(this.totPlayer / 2)].name);
+    }
+
+    return arr;
   }
 
-  sendToTeam (msg, team) {
-    for (var i=0; i < team.lenght; i++) {
-      team[i].conn.send(msg);
+  sendToAll (msg, name = "") {
+    this.sendToTeam(msg, this.team1, name);
+    this.sendToTeam(msg, this.team2, name);
+  }
+
+  sendToTeam (msg, team, name = "") {
+    for (var i=0; i < team.length; i++) {
+      if (team[i].name != name) team[i].conn.send(msg);
     }
   }
 

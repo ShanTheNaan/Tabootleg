@@ -12,6 +12,15 @@ wss.on('connection', function connection(ws) {
   ws.on('message', function incoming(message) {
     var obj = JSON.parse(message);
     console.log("Received!" + message);
-    game.addPlayer(obj.name, ws);
+    if (obj.id == 'newUser') {
+      game.addPlayer(obj.name, ws);
+    } 
+
   });
+
+  ws.on('close', function close() {
+    console.log('disconnected');
+    //game.removePlayer(ws);
+  });
+
 });

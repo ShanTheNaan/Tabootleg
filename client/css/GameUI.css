@@ -96,25 +96,32 @@ body {
   grid-row: 3 / 7;
   background-color: blue;
   display: grid;
+  grid-template-columns: auto;
+  grid-template-rows: 1fr 1fr 1fr 1fr;
+  grid-template-areas:
+    "player1"
+    "player2"
+    "player3"
+    "player4";
 }
 
 .t2Player1 {
-
+  grid-area: player1;
   background-color: red;
 }
 
 .t2Player2 {
-
+  grid-area: player2;
   background-color: yellow;
 }
 
 .t2Player3 {
-
+  grid-area: player3;
   background-color: orange;
 }
 
 .t2Player4 {
-
+  grid-area: player4;
   background-color: green;
 }
 
