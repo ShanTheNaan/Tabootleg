@@ -31,16 +31,16 @@ class Game {
   }
 
   removePlayer (conn) {
-    for (var i=0; i < team1.length; i++) {
-      if (team1[i].conn == conn) {
-
+    for (var i=0; i < this.team1.length; i++) {
+      if (this.team1[i].conn == conn) {
+        console.log("team1");
         break;
       }
     }
 
-    for (var i=0; i < team2.length; i++) {
-      if (team2[i].conn == conn) {
-
+    for (var i=0; i < this.team2.length; i++) {
+      if (this.team2[i].conn == conn) {
+        console.log('team2');
         break;
       }
     }

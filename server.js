@@ -14,13 +14,13 @@ wss.on('connection', function connection(ws) {
     console.log("Received!" + message);
     if (obj.id == 'newUser') {
       game.addPlayer(obj.name, ws);
-    } 
+    }
 
   });
 
   ws.on('close', function close() {
     console.log('disconnected');
-    //game.removePlayer(ws);
+    game.removePlayer(ws);
   });
 
 });
