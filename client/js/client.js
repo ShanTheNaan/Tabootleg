@@ -1,12 +1,17 @@
-var name = Cookies.get("username");
+/********* HTML Elements **********/
 var team1Labels = [];
 var team2Labels = [];
-var totalPlayers = 0;
+var timeElement = document.getElementById('time');
+var roundElement = document.getElementById('roundLabel');
 
-for (var i=0; i < 4; i++) {
-  team1Labels.push(document.getElementById('t1-p'+(i+1)));
-  team2Labels.push(document.getElementById('t2-p'+(i+1)));
-}
+/****** Counters ******/
+var totalPlayers = 0;
+var round = 1;
+var turn = 0;
+var roundTime = 59;
+
+var clock;
+var name = Cookies.get("username");
 
 
 /************** WEBSOCKET ************************/
@@ -27,43 +32,89 @@ conn.onmessage = function(event) {
     allPlayers(data.data);
   }
 }
-
 /*************************************************/
 
+
+for (var i=0; i < 4; i++) {
+  team1Labels.push(addLabel('t1-p'+(i+1)));
+  team2Labels.push(addLabel('t2-p'+(i+1)));
+}
+
+var startButton = document.getElementById('startButton');
+startButton.onclick = function() {
+  roundElement.innerHTML = "Round " + round;
+  timeElement.innerHTML = "60";
+
+  turn += 1;
+  if (turn%2 == 0) {
+    round += 1;
+  }
+
+  clock = setInterval(setTime, 1000);
+  startButton.style.display = "none";
+}
+
+
+/************** Functions ******************/
+
+function addLabel(id) {
+  var div = document.getElementById(id);
+  var playerLabel = document.createElement('P');
+  div.appendChild(playerLabel);
+
+  return playerLabel;
+}
+
+
 function allPlayers(data) {
-  var playerLabel;
+  clearLabels();
 
   for (var i=0; i < Math.floor(data.length / 2); i++) {
-
-    playerLabel = document.createElement('P');
-    playerLabel.innerHTML = data[(i*2)];
-    team1Labels[i].appendChild(playerLabel);
-
-    playerLabel = document.createElement('P');
-    playerLabel.innerHTML = data[(i*2)+1];
-    team2Labels[i].appendChild(playerLabel);
-
-    totalPlayers += 2;
+    team1Labels[i].innerHTML = data[(i*2)];
+    team2Labels[i].innerHTML = data[(i*2)+1];
   }
 
   if (data.length % 2 == 1) {
-    playerLabel = document.createElement('P');
-    playerLabel.innerHTML = data[data.length-1];
-    team1Labels[Math.floor(data.length/2)].appendChild(playerLabel);
-
-    totalPlayers += 1;
+    team1Labels[Math.floor(data.length/2)].innerHTML = data[data.length-1];
   }
+
+  totalPlayers = data.length;
+  console.log(totalPlayers);
 }
 
 function newPlayer(name) {
-  var playerLabel = document.createElement('P');
-  playerLabel.innerHTML = name;
 
   if (totalPlayers%2 == 0) {
-    team1Labels[Math.floor(totalPlayers/2)].appendChild(playerLabel);
+    team1Labels[Math.floor(totalPlayers/2)].innerHTML = name;
   } else {
-    team2Labels[Math.floor(totalPlayers/2)].appendChild(playerLabel);
+    team2Labels[Math.floor(totalPlayers/2)].innerHTML = name;
   }
 
   totalPlayers += 1;
 }
+
+function clearLabels() {
+  for (var i=0; i < 4; i++) {
+    team1Labels[i].innerHTML = "";
+    team2Labels[i].innerHTML = "";
+  }
+}
+
+function setTime() {
+  timeElement.innerHTML = checkTime(roundTime);
+  roundTime -= 1;
+  if (roundTime == -1) {
+    clearInterval(clock);
+    startButton.style.display = "block";
+    roundTime = 59;
+  }
+}
+
+function checkTime(time) {
+  if (time < 10) {
+    return ('0' + time);
+  }
+
+  return time;
+}
+/*******************************************/

@@ -14,7 +14,6 @@ class Game {
   }
 
   addPlayer(name, conn) {
-
     if (this.totPlayer%2 == 0) {
       this.team1.push(new Player(name, conn));
     } else {
@@ -27,24 +26,40 @@ class Game {
     conn.send(JSON.stringify(obj));
 
     this.sendToAll(JSON.stringify({"id":"newPlayer", "name": name}), name);
-
   }
 
   removePlayer (conn) {
+    var obj = {'id': 'allPlayers'};
+
     for (var i=0; i < this.team1.length; i++) {
       if (this.team1[i].conn == conn) {
-        console.log("team1");
-        break;
+        this.team1.splice(i, 1);
+        this.totPlayer -= 1;
+
+        if (this.totPlayer % 2 == 1) {
+          this.team1.push(this.team2.pop());
+        }
+
+        obj['data'] = this.allPlayers();
+        this.sendToAll(JSON.stringify(obj));
+        return;
       }
     }
 
     for (var i=0; i < this.team2.length; i++) {
       if (this.team2[i].conn == conn) {
-        console.log('team2');
+        this.team2.splice(i, 1);
+        this.totPlayer -= 1;
+
+        if (this.totPlayer % 2 == 0) {
+          this.team2.push(this.team1.pop());
+        }
+
+        obj['data'] = this.allPlayers();
+        this.sendToAll(JSON.stringify(obj));
         break;
       }
     }
-
   }
 
   allPlayers() {
@@ -71,6 +86,8 @@ class Game {
       if (team[i].name != name) team[i].conn.send(msg);
     }
   }
+
+
 
 }
 
