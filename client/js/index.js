@@ -11,3 +11,7 @@ button.onclick = function() {
   }
 
 };
+
+document.onkeypress = function (event) {
+  if (event.keyCode === 13) button.click();
+}

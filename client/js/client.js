@@ -3,6 +3,9 @@ var team1Labels = [];
 var team2Labels = [];
 var timeElement = document.getElementById('time');
 var roundElement = document.getElementById('roundLabel');
+var startButton = document.getElementById('startButton');
+var currentPlayerLabel = document.getElementById('currentPlayer');
+var cardDiv = document.getElementById('')
 
 /****** Counters ******/
 var totalPlayers = 0;
@@ -12,10 +15,11 @@ var roundTime = 59;
 
 var clock;
 var name = Cookies.get("username");
-
+var conn;
 
 /************** WEBSOCKET ************************/
-var conn = new WebSocket('ws://localhost:8080');
+
+conn = new WebSocket('ws://localhost:8080');
 if(!document.webkitHidden) {
   conn.addEventListener('open', function (event) {
     conn.send(JSON.stringify({"id":"newUser", "name":name}));
@@ -26,13 +30,25 @@ conn.onmessage = function(event) {
   var data = JSON.parse(event.data);
   console.log(data);
 
-  if (data.id == 'newPlayer') {
-    newPlayer(data.name);
-  } else if (data.id == 'allPlayers') {
-    allPlayers(data.data);
+  switch (data.id) {
+    case 'newPlayer':
+      newPlayer(data.name);
+      break;
+
+    case 'allPlayers':
+      allPlayers(data.data);
+      break;
+
+    case 'startRound':
+        startRound();
+        break;
+
+    default:
+      console.log("Error: Incorrect Server Message");
   }
 }
-/*************************************************/
+
+/********************************************/
 
 
 for (var i=0; i < 4; i++) {
@@ -40,31 +56,25 @@ for (var i=0; i < 4; i++) {
   team2Labels.push(addLabel('t2-p'+(i+1)));
 }
 
-var startButton = document.getElementById('startButton');
 startButton.onclick = function() {
-  roundElement.innerHTML = "Round " + round;
-  timeElement.innerHTML = "60";
-
-  turn += 1;
-  if (turn%2 == 0) {
-    round += 1;
-  }
-
-  clock = setInterval(setTime, 1000);
-  startButton.style.display = "none";
+  hideStartButton();
+  conn.send(JSON.stringify({'id': 'startRound'}));
 }
 
 
 /************** Functions ******************/
 
-function addLabel(id) {
-  var div = document.getElementById(id);
-  var playerLabel = document.createElement('P');
-  div.appendChild(playerLabel);
+function newPlayer(name) {
 
-  return playerLabel;
+  if (totalPlayers%2 == 0) {
+    team1Labels[Math.floor(totalPlayers/2)].innerHTML = name;
+  } else {
+    team2Labels[Math.floor(totalPlayers/2)].innerHTML = name;
+  }
+
+  totalPlayers += 1;
+  if (totalPlayers == 4) prepareStart();
 }
-
 
 function allPlayers(data) {
   clearLabels();
@@ -79,18 +89,53 @@ function allPlayers(data) {
   }
 
   totalPlayers = data.length;
-  console.log(totalPlayers);
+  (totalPlayers >= 4) ? prepareStart() : (hideStartButton(), hideCurrentPlayer());
 }
 
-function newPlayer(name) {
+function startRound() {
 
-  if (totalPlayers%2 == 0) {
-    team1Labels[Math.floor(totalPlayers/2)].innerHTML = name;
-  } else {
-    team2Labels[Math.floor(totalPlayers/2)].innerHTML = name;
+  turn += 1;
+  if (turn%2 == 0) {
+    round += 1;
   }
 
-  totalPlayers += 1;
+  clock = setInterval(setTime, 1000);
+  setCardDisplay();
+}
+
+/********** Helper Function ************/
+
+function prepareStart() {
+  roundElement.innerHTML = "Round " + round;
+  timeElement.innerHTML = "60";
+
+  if (turn%2 == 0) {
+    if (name == team1Labels[round-1].innerHTML) {
+      showStartButton();
+      hideCurrentPlayer();
+    } else {
+      showCurrentPlayer(team1Labels);
+    }
+  } else {
+    if (name == team2Labels[round-1].innerHTML) {
+      showStartButton();
+      hideCurrentPlayer();
+    } else {
+      showCurrentPlayer(team2Labels);
+    }
+  }
+}
+
+function setCardDisplay() {
+
+}
+
+function addLabel(id) {
+  var div = document.getElementById(id);
+  var playerLabel = document.createElement('P');
+  div.appendChild(playerLabel);
+
+  return playerLabel;
 }
 
 function clearLabels() {
@@ -105,8 +150,7 @@ function setTime() {
   roundTime -= 1;
   if (roundTime == -1) {
     clearInterval(clock);
-    startButton.style.display = "block";
-    roundTime = 59;
+    resetRound();
   }
 }
 
@@ -117,4 +161,25 @@ function checkTime(time) {
 
   return time;
 }
-/*******************************************/
+
+function resetRound() {
+  roundTime = 59;
+  prepareStart();
+}
+
+function showStartButton() {
+  startButton.style.display = 'block';
+}
+
+function hideStartButton() {
+  startButton.style.display = 'none';
+}
+
+function showCurrentPlayer(team) {
+  currentPlayerLabel.innerHTML = "Current: " + team[round-1].innerHTML;
+  currentPlayerLabel.style.display = 'block';
+}
+
+function hideCurrentPlayer() {
+  currentPlayerLabel.style.display = 'none';
+}

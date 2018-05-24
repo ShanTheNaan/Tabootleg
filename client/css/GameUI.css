@@ -2,7 +2,7 @@ body {
   margin: 0;
 }
 
-.container {
+.UI-container {
   height: 100vh;
   display: grid;
   grid-template-columns: 2fr 1fr 1fr 2fr 1fr 1fr 2fr;
@@ -14,15 +14,14 @@ body {
   grid-column: 1 / 2;
   grid-row: 1 / 2;
   background-image: url('../images/round.jpg');
+  background-size: 100% 100%;
 }
 
 .round p {
-  margin: 0;
-  padding-right: 10%;
-  padding-top: 4%;
   color: yellow;
+  padding-right: 2vw;
   text-align: center;
-  font-size: 50px;
+  font-size: 3vw;
   text-shadow: 2px 2px 4px #000000;
 }
 
@@ -38,13 +37,13 @@ body {
   grid-column: 7 / 8;
   grid-row: 1 / 2;
   background-image: url('../images/timer.jpg');
+  background-size: 100% 100%;
 }
 
 .timer p {
-  margin: 0;
   color: yellow;
   text-align: center;
-  font-size: 75px;
+  font-size: 3vw;
   text-shadow: 2px 2px 4px #000000;
 }
 
@@ -135,4 +134,18 @@ body {
   grid-column: 4 / 5;
   grid-row: 7 / 8;
   background-color: yellow;
+}
+
+.current-player button {
+  display: none;
+}
+
+.current-player h3 {
+  display: none;
+}
+
+.center-in-div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

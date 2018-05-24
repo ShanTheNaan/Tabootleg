@@ -12,8 +12,19 @@ wss.on('connection', function connection(ws) {
   ws.on('message', function incoming(message) {
     var obj = JSON.parse(message);
     console.log("Received!" + message);
-    if (obj.id == 'newUser') {
-      game.addPlayer(obj.name, ws);
+
+    switch(obj.id) {
+      case 'newUser':
+        game.addPlayer(obj.name, ws);
+        break;
+
+      case 'startRound':
+        game.sendToAll(JSON.stringify({'id': 'startRound'}));
+        break;
+
+      default:
+        console.log('Error: Message not recognized!');
+        break;
     }
 
   });
