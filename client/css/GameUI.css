@@ -1,5 +1,21 @@
+@font-face {
+    font-family: Bubble;
+    font-weight: normal;
+    src: url(../fonts/JandaManateeSolid.ttf);
+}
+
+@font-face {
+  font-family: Bebas;
+  font-weight: bold;
+  src:url(../fonts/bebas/BebasNeue\ Bold.otf);
+}
+
 body {
   margin: 0;
+  /* background-color: rgb(43, 36, 100); */
+  background-image: url(../images/tabootleg.jpg);
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
 }
 
 .UI-container {
@@ -15,6 +31,7 @@ body {
   grid-row: 1 / 2;
   background-image: url('../images/round.jpg');
   background-size: 100% 100%;
+  border-bottom-right-radius: 2px;
 }
 
 .round p {
@@ -22,6 +39,7 @@ body {
   padding-right: 2vw;
   text-align: center;
   font-size: 3vw;
+  font-family: Bebas;
   text-shadow: 2px 2px 4px #000000;
 }
 
@@ -38,12 +56,14 @@ body {
   grid-row: 1 / 2;
   background-image: url('../images/timer.jpg');
   background-size: 100% 100%;
+  border-bottom-left-radius: 2px;
 }
 
 .timer p {
   color: yellow;
   text-align: center;
   font-size: 3vw;
+  font-family: Bebas;
   text-shadow: 2px 2px 4px #000000;
 }
 
@@ -51,10 +71,15 @@ body {
 .score {
   grid-column: 4 / 5;
   grid-row: 2 / 3;
-  background-color: green;
+  font-family: Bubble;
+  color: rgb(93, 239, 63);
+  font-size: 350%;
+  text-shadow:
+    -1px -1px 0 #000,
+    1px -1px 0 #000,
+    -1px 1px 0 #000,
+    1px 1px 0 #000;
 }
-
-
 
 .team1 {
   grid-column: 1 / 2;
@@ -124,16 +149,64 @@ body {
   background-color: green;
 }
 
-.card {
+.taboo-card {
   grid-column: 4 / 5;
   grid-row: 3 / 7;
-  background-color: purple;
+  display: grid;
+  grid-template-columns: auto;
+  grid-template-rows: 1.5fr 1fr 1fr 1fr 1fr 1fr;
+  grid-template-areas:
+    "main"
+    "ban1"
+    "ban2"
+    "ban3"
+    "ban4"
+    "ban5";
+  border: .6em solid rgb(54, 57, 62);
+  border-top-right-radius: 5px;
+  border-top-left-radius: 5px;
+}
+
+.main-word {
+  grid-area: main;
+  background-color: rgb(240,106, 114);
+  /* border-top-right-radius: 10px;
+  border-top-left-radius: 10px; */
+}
+
+.banned-word1 {
+  grid-area: ban1;
+  background-color: white;
+}
+
+.banned-word2 {
+  grid-area: ban2;
+  background-color: white;
+}
+
+.banned-word3 {
+  grid-area: ban3;
+  background-color: white;
+}
+
+.banned-word4 {
+  grid-area: ban4;
+  background-color: white;
+}
+
+.banned-word5 {
+  grid-area: ban5;
+  background-color: white;
+}
+
+.card-header {
+  background-color: blue;
+  background-color: white;
 }
 
 .current-player {
   grid-column: 4 / 5;
-  grid-row: 7 / 8;
-  background-color: yellow;
+  grid-row: 7 / 9;
 }
 
 .current-player button {
@@ -141,7 +214,17 @@ body {
 }
 
 .current-player h3 {
-  display: none;
+  font-family: Bubble;
+  color: rgb(93, 239, 63);
+  text-shadow:
+    -1px -1px 0 #000,
+    1px -1px 0 #000,
+    -1px 1px 0 #000,
+    1px 1px 0 #000;
+}
+
+#currentPlayer {
+  /* display: none; */
 }
 
 .center-in-div {

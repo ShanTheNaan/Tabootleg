@@ -5,12 +5,34 @@ class Player {
   }
 }
 
+class TabooCard {
+  constructor(name, bannedWords) {
+    this.cardName = name;
+    this.banned = bannedWords;
+  }
+
+  getName() {
+    return this.name;
+  }
+
+  getBannedWords() {
+    return this.bannedWords;
+  }
+}
+
 class Game {
 
   constructor () {
     this.team1 = [];
     this.team2 = [];
     this.totPlayer = 0;
+    this.deck = [];
+
+    const cards = require("../TabooCards.json");
+    for (var i = 0; i < cards.tabooCards.length; i++) {
+      this.deck.push(new TabooCard(cards.tabooCards[i].cardName,
+                                   cards.tabooCards[i].banned));
+    }
   }
 
   addPlayer(name, conn) {
@@ -86,9 +108,6 @@ class Game {
       if (team[i].name != name) team[i].conn.send(msg);
     }
   }
-
-
-
 }
 
 module.exports = Game;
