@@ -19,7 +19,10 @@ wss.on('connection', function connection(ws) {
         break;
 
       case 'startRound':
-        game.sendToAll(JSON.stringify({'id': 'startRound'}));
+        var card = game.getRandomCard();
+        game.sendToAll(JSON.stringify({'id': 'startRound',
+                                       'mainWord': card.cardName,
+                                       'bannedWords': card.banned}));
         break;
 
       default:

@@ -27,14 +27,20 @@ class Game {
     this.team2 = [];
     this.totPlayer = 0;
     this.deck = [];
+    this.repeatDeck = [];
 
     const cards = require("../TabooCards.json");
+    var shuffle = require('shuffle-array');
     for (var i = 0; i < cards.tabooCards.length; i++) {
       this.deck.push(new TabooCard(cards.tabooCards[i].cardName,
                                    cards.tabooCards[i].banned));
     }
+
+    shuffle(this.deck);
   }
 
+
+/************ Main Functions **************/
   addPlayer(name, conn) {
     if (this.totPlayer%2 == 0) {
       this.team1.push(new Player(name, conn));
@@ -98,6 +104,19 @@ class Game {
     return arr;
   }
 
+  getRandomCard() {
+    var card = this.deck.pop();
+    this.repeatDeck.push(card);
+
+    if (this.deck.length == 0) {
+      this.deck = this.repeatDeck;
+      this.repeatDeck = [];
+    }
+
+    return card;
+  }
+
+/********* Helper Functions *************/
   sendToAll (msg, name = "") {
     this.sendToTeam(msg, this.team1, name);
     this.sendToTeam(msg, this.team2, name);

@@ -1,11 +1,13 @@
 /********* HTML Elements **********/
 var team1Labels = [];
 var team2Labels = [];
+var bannedWordsLabel = [];
+var mainWordLabel = document.getElementById('mainWord');
 var timeElement = document.getElementById('time');
 var roundElement = document.getElementById('roundLabel');
 var startButton = document.getElementById('startButton');
 var currentPlayerLabel = document.getElementById('currentPlayer');
-var cardDiv = document.getElementById('')
+var cardDiv = document.getElementById('');
 
 /****** Counters ******/
 var totalPlayers = 0;
@@ -15,6 +17,8 @@ var roundTime = 59;
 
 var clock;
 var name = Cookies.get("username");
+var currentPlayer = "";
+var team;
 var conn;
 
 /************** WEBSOCKET ************************/
@@ -40,7 +44,7 @@ conn.onmessage = function(event) {
       break;
 
     case 'startRound':
-        startRound();
+        startRound(data);
         break;
 
     default:
@@ -50,10 +54,13 @@ conn.onmessage = function(event) {
 
 /********************************************/
 
-
 for (var i=0; i < 4; i++) {
   team1Labels.push(addLabel('t1-p'+(i+1)));
   team2Labels.push(addLabel('t2-p'+(i+1)));
+}
+
+for (var i=0; i < 5; i++) {
+  bannedWordsLabel.push(addLabel("ban"+(i+1)));
 }
 
 startButton.onclick = function() {
@@ -92,15 +99,18 @@ function allPlayers(data) {
   (totalPlayers >= 4) ? prepareStart() : (hideStartButton(), hideCurrentPlayer());
 }
 
-function startRound() {
+function startRound(data) {
+  var mainWord = data.mainWord;
+  var bannedWord = data.bannedWords;
+
+  setCardDisplay(mainWord, bannedWord);
+  clock = setInterval(setTime, 1000);
 
   turn += 1;
   if (turn%2 == 0) {
     round += 1;
   }
 
-  clock = setInterval(setTime, 1000);
-  setCardDisplay();
 }
 
 /********** Helper Function ************/
@@ -109,25 +119,33 @@ function prepareStart() {
   roundElement.innerHTML = "Round " + round;
   timeElement.innerHTML = "60";
 
-  if (turn%2 == 0) {
-    if (name == team1Labels[round-1].innerHTML) {
-      showStartButton();
-      hideCurrentPlayer();
-    } else {
-      showCurrentPlayer(team1Labels);
-    }
+  setCurrentPlayer();
+  if (name == currentPlayer) {
+    showStartButton();
+    hideCurrentPlayer();
   } else {
-    if (name == team2Labels[round-1].innerHTML) {
-      showStartButton();
-      hideCurrentPlayer();
-    } else {
-      showCurrentPlayer(team2Labels);
+    showCurrentPlayer();
+  }
+
+  for (var i=0; i < 4; i++) {
+    if (name == team1Labels[i].innerHTML) {
+      team = 1;
+      break;
+    }
+    if (name == team2Labels[i].innerHTML) {
+      team = 2;
+      break;
     }
   }
 }
 
-function setCardDisplay() {
-
+function setCardDisplay(mainWord, bannedWords) {
+  if ((turn%2 == 0 && team == 2) || (turn%2 == 1 && team == 1) || name == currentPlayer) {
+    mainWordLabel.innerHTML = mainWord;
+    for (var i=0; i < 5; i++) {
+      bannedWordsLabel[i].innerHTML = bannedWords[i];
+    }
+  }
 }
 
 function addLabel(id) {
@@ -175,11 +193,19 @@ function hideStartButton() {
   startButton.style.display = 'none';
 }
 
-function showCurrentPlayer(team) {
-  currentPlayerLabel.innerHTML = "Current: " + team[round-1].innerHTML;
+function showCurrentPlayer() {
+  currentPlayerLabel.innerHTML = currentPlayer;
   currentPlayerLabel.style.display = 'block';
 }
 
 function hideCurrentPlayer() {
   currentPlayerLabel.style.display = 'none';
+}
+
+function setCurrentPlayer() {
+  if (turn%2 == 0) {
+    currentPlayer = team1Labels[round-1].innerHTML;
+  } else {
+    currentPlayer = team2Labels[round-1].innerHTML;
+  }
 }

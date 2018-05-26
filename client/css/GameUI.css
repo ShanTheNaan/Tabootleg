@@ -13,7 +13,7 @@
 body {
   margin: 0;
   /* background-color: rgb(43, 36, 100); */
-  background-image: url(../images/tabootleg.jpg);
+  background-image: url(../images/background.jpg);
   background-repeat: no-repeat;
   background-size: 100% 100%;
 }
@@ -39,8 +39,12 @@ body {
   padding-right: 2vw;
   text-align: center;
   font-size: 3vw;
-  font-family: Bebas;
-  text-shadow: 2px 2px 4px #000000;
+  font-family: Bubble;
+  text-shadow:
+    -1px -1px 0 #000,
+    1px -1px 0 #000,
+    -1px 1px 0 #000,
+    1px 1px 0 #000;
 }
 
 /* 768 x 114 */
@@ -63,17 +67,23 @@ body {
   color: yellow;
   text-align: center;
   font-size: 3vw;
-  font-family: Bebas;
-  text-shadow: 2px 2px 4px #000000;
+  font-family: Bubble;
+  /* text-shadow: 2px 2px 4px #000000; */
+  text-shadow:
+    -1px -1px 0 #000,
+    1px -1px 0 #000,
+    -1px 1px 0 #000,
+    1px 1px 0 #000;
 }
 
 /* 384 x 171 */
 .score {
   grid-column: 4 / 5;
   grid-row: 2 / 3;
+  background-color: rgb(26, 23, 32);
   font-family: Bubble;
   color: rgb(93, 239, 63);
-  font-size: 350%;
+  font-size: 4vw;
   text-shadow:
     -1px -1px 0 #000,
     1px -1px 0 #000,
@@ -97,6 +107,8 @@ body {
 
 .t1Player1 {
   grid-area: player1;
+  font-family: Bubble;
+
   background-color: red;
 }
 
@@ -170,6 +182,8 @@ body {
 .main-word {
   grid-area: main;
   background-color: rgb(240,106, 114);
+  font-size: 2vw;
+  font-family: Gadget;
   /* border-top-right-radius: 10px;
   border-top-left-radius: 10px; */
 }
@@ -204,6 +218,11 @@ body {
   background-color: white;
 }
 
+.card-font {
+    font-size: 1.5vw;
+    font-family: verdana;
+}
+
 .current-player {
   grid-column: 4 / 5;
   grid-row: 7 / 9;
@@ -214,8 +233,11 @@ body {
 }
 
 .current-player h3 {
+  background-color: rgb(26, 23, 32);
   font-family: Bubble;
   color: rgb(93, 239, 63);
+  font-size: 4vw;
+  padding: 5px;
   text-shadow:
     -1px -1px 0 #000,
     1px -1px 0 #000,
@@ -231,4 +253,10 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.players-design p {
+  font-family: Bubble;
+  font-size: 2vw;
+  color: white;
 }
