@@ -94,7 +94,6 @@ body {
 .team1 {
   grid-column: 1 / 2;
   grid-row: 3 / 7;
-  background-color: blue;
   display: grid;
   grid-template-columns: auto;
   grid-template-rows: 1fr 1fr 1fr 1fr;
@@ -105,26 +104,27 @@ body {
     "player4";
 }
 
+.team1 div {
+  background-image: url(../images/Pencil.png);
+  border-bottom: 2px solid black;
+  background-color: transparent;
+}
+
 .t1Player1 {
   grid-area: player1;
   font-family: Bubble;
-
-  background-color: red;
 }
 
 .t1Player2 {
   grid-area: player2;
-  background-color: yellow;
 }
 
 .t1Player3 {
   grid-area: player3;
-  background-color: orange;
 }
 
 .t1Player4 {
   grid-area: player4;
-  background-color: green;
 }
 
 .team2 {
