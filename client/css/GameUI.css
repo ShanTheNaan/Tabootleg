@@ -1,21 +1,25 @@
 @font-face {
     font-family: Bubble;
     font-weight: normal;
-    src: url(../fonts/JandaManateeSolid.ttf);
+    src: url('../fonts/JandaManateeSolid.ttf');
 }
 
 @font-face {
   font-family: Bebas;
   font-weight: bold;
-  src:url(../fonts/bebas/BebasNeue\ Bold.otf);
+  src:url('../fonts/bebas/BebasNeue\ Bold.otf');
 }
 
 body {
   margin: 0;
   /* background-color: rgb(43, 36, 100); */
-  background-image: url(../images/background.jpg);
+  background-image: url('../images/background.jpg');
   background-repeat: no-repeat;
   background-size: 100% 100%;
+}
+
+p {
+  margin: 0;
 }
 
 .UI-container {
@@ -35,11 +39,13 @@ body {
 }
 
 .round p {
-  color: yellow;
+  margin: 0;
+  padding-bottom: 2vh;
   padding-right: 2vw;
   text-align: center;
   font-size: 3vw;
   font-family: Bubble;
+  color: yellow;
   text-shadow:
     -1px -1px 0 #000,
     1px -1px 0 #000,
@@ -51,7 +57,27 @@ body {
 .score-board {
   grid-column: 3 / 6;
   grid-row: 1 / 2;
-  background-color: grey;
+  background-image: url('../images/ScoreBoard.jpg');
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  display: grid;
+  grid-template-rows: 1fr;
+  grid-template-columns: 2fr 1fr 2fr;
+}
+
+.score-board div p {
+  color: yellow;
+  font-family: Bubble;
+  margin-bottom: 2vh;
+  font-size: 3vw;
+}
+
+#team1score {
+  grid-column: 1 / 2;
+}
+
+#team2score {
+  grid-column: 3 / 4;
 }
 
 /* 384 x 114 */
@@ -64,6 +90,8 @@ body {
 }
 
 .timer p {
+  margin: 0;
+  padding-bottom: 2vh;
   color: yellow;
   text-align: center;
   font-size: 3vw;
@@ -105,8 +133,9 @@ body {
 }
 
 .team1 div {
-  background-image: url(../images/Pencil.png);
-  border-bottom: 2px solid black;
+  background-image: url('../images/Pencil.png');
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
   background-color: transparent;
 }
 
@@ -130,7 +159,6 @@ body {
 .team2 {
   grid-column: 7 / 8;
   grid-row: 3 / 7;
-  background-color: blue;
   display: grid;
   grid-template-columns: auto;
   grid-template-rows: 1fr 1fr 1fr 1fr;
@@ -139,6 +167,13 @@ body {
     "player2"
     "player3"
     "player4";
+}
+
+.team2 div {
+  background-image: url('../images/Pencil2.png');
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  background-color: transparent;
 }
 
 .t2Player1 {
@@ -219,8 +254,30 @@ body {
 }
 
 .card-font {
-    font-size: 1.5vw;
-    font-family: verdana;
+  font-size: 1.5vw;
+  font-family: verdana;
+}
+
+.correct {
+  grid-row: 4 / 6;
+  grid-column: 5 / 7;
+}
+
+.wrong {
+  grid-row: 4 / 6;
+  grid-column: 2 / 4;
+}
+
+.wrong i {
+  color: white;
+  background-color: tomato;
+  border-radius: 50%;
+}
+
+.correct i {
+  color: white;
+  background-color: limegreen;
+  border-radius: 50%;
 }
 
 .current-player {
@@ -229,14 +286,13 @@ body {
 }
 
 .current-player button {
-  display: none;
 }
 
 .current-player h3 {
   background-color: rgb(26, 23, 32);
   font-family: Bubble;
   color: rgb(93, 239, 63);
-  font-size: 4vw;
+  font-size: 2.5vw;
   padding: 5px;
   text-shadow:
     -1px -1px 0 #000,
@@ -255,8 +311,38 @@ body {
   justify-content: center;
 }
 
+.players-design {
+  display: flex;
+  align-items: center;
+}
+
 .players-design p {
-  font-family: Bubble;
-  font-size: 2vw;
-  color: white;
+  margin-left: .5vw;
+  font-family: Bebas;
+  font-size: 2.2vw;
+  color: #212F3C;
+}
+
+.players2-design {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.players2-design p {
+  margin-right: .5vw;
+  font-family: Bebas;
+  font-size: 2.2vw;
+  color: #212F3C;
+}
+
+#startButton {
+  height: 8vh;
+  width: 15vw;
+  padding-top: .8vw;
+  font-family: Bebas;
+  font-size: 2.5vw;
+  background-color: #29B6F6;
+  border: none;
+  border-radius: 4px;
 }

@@ -7,7 +7,8 @@ var timeElement = document.getElementById('time');
 var roundElement = document.getElementById('roundLabel');
 var startButton = document.getElementById('startButton');
 var currentPlayerLabel = document.getElementById('currentPlayer');
-var cardDiv = document.getElementById('');
+var correctButton = document.getElementById('correctButton');
+var wrongButton = document.getElementById('wrongButton');
 
 /****** Counters ******/
 var totalPlayers = 0;
@@ -68,6 +69,9 @@ startButton.onclick = function() {
   conn.send(JSON.stringify({'id': 'startRound'}));
 }
 
+setCorrectButtonEvents();
+setWrongButtonEvents();
+setStartButtonEvents();
 
 /************** Functions ******************/
 
@@ -207,5 +211,60 @@ function setCurrentPlayer() {
     currentPlayer = team1Labels[round-1].innerHTML;
   } else {
     currentPlayer = team2Labels[round-1].innerHTML;
+  }
+}
+
+function setCorrectButtonEvents() {
+  correctButton.onmousemove = function() {
+    correctButton.style.backgroundColor = 'mediumseagreen';
+  }
+
+  correctButton.onmouseout = function() {
+    correctButton.style.backgroundColor = 'limegreen';
+  }
+
+  correctButton.onmousedown = function() {
+    correctButton.style.background = 'seagreen';
+  }
+
+  correctButton.onmouseup = function() {
+    correctButton.style.background = 'mediumseagreen';
+  }
+}
+
+function setWrongButtonEvents() {
+
+  wrongButton.onmousemove = function() {
+    wrongButton.style.backgroundColor = 'orangered';
+  }
+
+  wrongButton.onmouseout = function() {
+    wrongButton.style.backgroundColor = 'tomato';
+  }
+
+  wrongButton.onmousedown = function() {
+    wrongButton.style.backgroundColor = 'firebrick';
+  }
+
+  wrongButton.onmouseup = function() {
+    wrongButton.style.backgroundColor = 'orangered';
+  }
+}
+
+function setStartButtonEvents() {
+  startButton.onmousemove = function() {
+    startButton.style.backgroundColor = '#039BE5';
+  }
+
+  startButton.onmouseout = function () {
+    startButton.style.backgroundColor = '#29B6F6';
+  }
+
+  startButton.onmousedown = function() {
+    startButton.style.backgroundColor = '#0277BD';
+  }
+
+  startButton.onmouseup = function() {
+    startButton.style.backgroundColor = '#039BE5';
   }
 }
