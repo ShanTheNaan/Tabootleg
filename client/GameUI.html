@@ -18,9 +18,9 @@
 <div class="UI-container">
 
   <div class="score-board">
-    <div class="center-in-div"> <p id="team1score"> Team1 </p> </div>
+    <div class="center-in-div"> <p id="team1score"> Team 1 </p> </div>
     <div class="center-in-div"> <p> - </p> </div>
-    <div class="center-in-div"> <p id="team2score"> Team2</p> </div>
+    <div class="center-in-div"> <p id="team2score"> Team 2</p> </div>
   </div>
 
   <div class="round center-in-div">
@@ -31,7 +31,7 @@
     <p id='time'>To Start!</p>
   </div>
 
-  <div class="score center-in-div"> +3 </div>
+  <div class="score center-in-div" id="score">  </div>
 
   <div class="team1">
     <div class="t1Player1 players-design" id="t1-p1">  </div>
@@ -44,7 +44,9 @@
     <i class="far fa-times-circle fa-5x" id="wrongButton"></i>
   </div>
 
-  <div class="taboo-card">
+  <div class="taboo-card-back" id="card-back"> </div>
+
+  <div class="taboo-card" id='taboo-card'>
     <div class="main-word center-in-div"> <b id="mainWord"> </b> </div>
     <div class="banned-word1 center-in-div card-font" id="ban1">  </div>
     <div class="banned-word2 center-in-div card-font" id="ban2">  </div>

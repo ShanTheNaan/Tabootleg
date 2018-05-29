@@ -26,6 +26,11 @@ class Game {
     this.team1 = [];
     this.team2 = [];
     this.totPlayer = 0;
+    this.team1score = 0;
+    this.team2score = 0;
+    this.currentScore = 0;
+    this.turn = 0;
+    this.totalTurns = -1;
     this.deck = [];
     this.repeatDeck = [];
 
@@ -114,6 +119,31 @@ class Game {
     }
 
     return card;
+  }
+
+  updateScore(team, point) {
+    if (team == 1) {
+      this.team1score += point;
+    } else {
+      this.team2score += point;
+    }
+    this.currentScore += point;
+
+    return this.currentScore;
+  }
+
+  resetTurn(team) {
+    this.turn++;
+
+    if (team == 1) {
+      this.team1score += this.currentScore;
+      this.currentScore = 0;
+      return this.team1score;
+    } else {
+      this.team2score += this.currentScore;
+      this.currentScore = 0;
+      return this.team2score;
+    }
   }
 
 /********* Helper Functions *************/

@@ -19,10 +19,39 @@ wss.on('connection', function connection(ws) {
         break;
 
       case 'startRound':
+        if (game.totalTurns == -1) game.totalTurns = game.totPlayer * 2;
         var card = game.getRandomCard();
         game.sendToAll(JSON.stringify({'id': 'startRound',
                                        'mainWord': card.cardName,
                                        'bannedWords': card.banned}));
+        break;
+
+      case 'update':
+        var points = game.updateScore(obj.team, obj.point);
+        var card = game.getRandomCard();
+        game.sendToAll(JSON.stringify({'id': 'updateCard',
+                                       'points': points,
+                                       'mainWord': card.cardName,
+                                       'bannedWords': card.banned}));
+        break;
+
+      case 'roundEnd':
+        var points = game.resetTurn(obj.team);
+        if (game.turns == game.totalTurns) {
+          var winningTeam = 0;
+          if (game.team1score > game.team2score) winningTeam = 1;
+          if (game.team2score > game.team1score) winningTeam = 2;
+
+          game.sendToAll(JSON.stringify({'id': 'gameEND',
+                                         'team': obj.team,
+                                         'points': points,
+                                         'winningTeam': winningTeam}));
+        } else {
+          game.sendToAll(JSON.stringify({'id': 'updateScore',
+                                         'team': obj.team,
+                                         'points': points}));
+        }
+
         break;
 
       default:

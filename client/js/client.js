@@ -9,6 +9,11 @@ var startButton = document.getElementById('startButton');
 var currentPlayerLabel = document.getElementById('currentPlayer');
 var correctButton = document.getElementById('correctButton');
 var wrongButton = document.getElementById('wrongButton');
+var team1scoreLabel = document.getElementById('team1score');
+var team2scoreLabel = document.getElementById('team2score');
+var currentScoreLabel = document.getElementById('score');
+var tabooCardDiv = document.getElementById('taboo-card');
+var cardBackDiv = document.getElementById('card-back');
 
 /****** Counters ******/
 var totalPlayers = 0;
@@ -18,9 +23,13 @@ var roundTime = 59;
 
 var clock;
 var name = Cookies.get("username");
-var currentPlayer = "";
-var team;
 var conn;
+var team;
+var currentPlayer = "";
+var currentTeam;
+var totalTeam1Players = 0;
+var totalTeam2Players = 0;
+
 
 /************** WEBSOCKET ************************/
 
@@ -45,8 +54,28 @@ conn.onmessage = function(event) {
       break;
 
     case 'startRound':
-        startRound(data);
-        break;
+      startRound(data);
+      break;
+
+    case 'updateCard':
+      updateCard(data);
+      break;
+
+    case 'updateScore':
+      updateScore(data);
+      break;
+
+    case 'gameEND':
+      updateScore(data);
+      var string;
+
+      if (data.winningTeam == 0) {
+        alert ("Congratulation! Both teams tie!");
+      } else if (data.winningTeam == 1) {
+        alert ("Congratulations to Team 1 for winning!");
+      } else {
+        alert ("Congratulations to Team 2 for winning!");
+      }
 
     default:
       console.log("Error: Incorrect Server Message");
@@ -107,14 +136,30 @@ function startRound(data) {
   var mainWord = data.mainWord;
   var bannedWord = data.bannedWords;
 
-  setCardDisplay(mainWord, bannedWord);
-  clock = setInterval(setTime, 1000);
-
   turn += 1;
   if (turn%2 == 0) {
     round += 1;
+    currentTeam = 2;
+  } else {
+    currentTeam = 1;
   }
 
+  setCardDisplay(mainWord, bannedWord);
+  clock = setInterval(setTime, 1000);
+
+}
+
+function updateCard(data) {
+  setCardDisplay(data.mainWord, data.bannedWords);
+  setCurrentScore (data.points);
+}
+
+function updateScore(data) {
+  if (data.team == 1) {
+    team1scoreLabel.innerHTML = data.points;
+  } else {
+    team2scoreLabel.innerHTML = data.points;
+  }
 }
 
 /********** Helper Function ************/
@@ -123,6 +168,14 @@ function prepareStart() {
   roundElement.innerHTML = "Round " + round;
   timeElement.innerHTML = "60";
 
+  resetCurrentScore();
+
+  if (turn == 0) {
+    team1scoreLabel.innerHTML = 0;
+    team2scoreLabel.innerHTML = 0;
+  }
+
+  setTotalTeamPlayers();
   setCurrentPlayer();
   if (name == currentPlayer) {
     showStartButton();
@@ -144,11 +197,16 @@ function prepareStart() {
 }
 
 function setCardDisplay(mainWord, bannedWords) {
-  if ((turn%2 == 0 && team == 2) || (turn%2 == 1 && team == 1) || name == currentPlayer) {
+  if ((turn%2 == 1 && team == 2) || (turn%2 == 0 && team == 1) || name == currentPlayer) {
+    hideCardBack();
     mainWordLabel.innerHTML = mainWord;
     for (var i=0; i < 5; i++) {
       bannedWordsLabel[i].innerHTML = bannedWords[i];
     }
+    showDecisionButtons();
+  } else {
+    hideDecisionButtons();
+    showCardBack();
   }
 }
 
@@ -173,6 +231,7 @@ function setTime() {
   if (roundTime == -1) {
     clearInterval(clock);
     resetRound();
+    conn.send(JSON.stringify({'id': 'roundEnd', 'team': team}));
   }
 }
 
@@ -186,6 +245,8 @@ function checkTime(time) {
 
 function resetRound() {
   roundTime = 59;
+  showCardBack();
+  hideDecisionButtons();
   prepareStart();
 }
 
@@ -208,9 +269,9 @@ function hideCurrentPlayer() {
 
 function setCurrentPlayer() {
   if (turn%2 == 0) {
-    currentPlayer = team1Labels[round-1].innerHTML;
+    currentPlayer = team1Labels[(round-1)%totalTeam1Players].innerHTML;
   } else {
-    currentPlayer = team2Labels[round-1].innerHTML;
+    currentPlayer = team2Labels[(round-1)%totalTeam2Players].innerHTML;
   }
 }
 
@@ -230,6 +291,13 @@ function setCorrectButtonEvents() {
   correctButton.onmouseup = function() {
     correctButton.style.background = 'mediumseagreen';
   }
+
+  correctButton.onclick = function() {
+    conn.send(JSON.stringify({'id': 'update',
+                              'team': currentTeam,
+                              'point': 1}));
+  }
+
 }
 
 function setWrongButtonEvents() {
@@ -249,6 +317,13 @@ function setWrongButtonEvents() {
   wrongButton.onmouseup = function() {
     wrongButton.style.backgroundColor = 'orangered';
   }
+
+  wrongButton.onclick = function() {
+    conn.send(JSON.stringify({'id': 'update',
+                              'team': currentTeam,
+                              'point': -1}));
+  }
+
 }
 
 function setStartButtonEvents() {
@@ -267,4 +342,49 @@ function setStartButtonEvents() {
   startButton.onmouseup = function() {
     startButton.style.backgroundColor = '#039BE5';
   }
+}
+
+function setCurrentScore(score) {
+  currentScoreLabel.innerHTML = score;
+}
+
+function resetCurrentScore() {
+  currentScoreLabel.innerHTML = '0';
+}
+
+function setTeam1score (score) {
+  team1scoreLabel.innerHTML = 'score';
+}
+
+function setTeam2score (score) {
+  team2scoreLabel = 'score';
+}
+
+function hideDecisionButtons () {
+  correctButton.style.display = 'none';
+  wrongButton.style.display = 'none'
+}
+
+function showDecisionButtons () {
+  correctButton.style.display = 'block';
+  wrongButton.style.display = 'block';
+}
+
+function setTotalTeamPlayers() {
+  totalTeam1Players = 0;
+  totalTeam2Players = 0;
+  for (var i=0; i < 4; i++) {
+    if (team1Labels[i].innerHTML != '') totalTeam1Players +=1;
+    if (team2Labels[i].innerHTML != '') totalTeam2Players +=1;
+  }
+}
+
+function showCardBack() {
+  cardBackDiv.style.display = 'block';
+  tabooCardDiv.style.display = 'none';
+}
+
+function hideCardBack() {
+  cardBackDiv.style.display = 'none';
+  tabooCardDiv.style.display = 'grid';
 }

@@ -3,7 +3,7 @@ var button = document.getElementById('joinButton')
 button.onclick = function() {
   $(button).popover('dispose');
   var name = document.getElementById('uName').value;
-  if (/^[a-zA-Z0-9_]{4,15}$/.test(name)) {
+  if (/^[a-zA-Z0-9 ]{4,15}$/.test(name)) {
     Cookies.set("username", name, {expires: 1});
     window.location.href = "GameUI.html";
   } else {

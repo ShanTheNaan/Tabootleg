@@ -196,6 +196,14 @@ p {
   background-color: green;
 }
 
+.taboo-card-back {
+  grid-column: 4 / 5;
+  grid-row: 3 / 7;
+  background-image: url('../images/card.jpg');
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+}
+
 .taboo-card {
   grid-column: 4 / 5;
   grid-row: 3 / 7;
@@ -212,6 +220,7 @@ p {
   border: .6em solid rgb(54, 57, 62);
   border-top-right-radius: 5px;
   border-top-left-radius: 5px;
+  display: none;
 }
 
 .main-word {
@@ -272,12 +281,14 @@ p {
   color: white;
   background-color: tomato;
   border-radius: 50%;
+  display: none;
 }
 
 .correct i {
   color: white;
   background-color: limegreen;
   border-radius: 50%;
+  display: none;
 }
 
 .current-player {
@@ -286,6 +297,7 @@ p {
 }
 
 .current-player button {
+  display: none;
 }
 
 .current-player h3 {
@@ -339,7 +351,8 @@ p {
 #startButton {
   height: 8vh;
   width: 15vw;
-  padding-top: .8vw;
+  text-align: center;
+  margin: auto;
   font-family: Bebas;
   font-size: 2.5vw;
   background-color: #29B6F6;
