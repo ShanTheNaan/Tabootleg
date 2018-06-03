@@ -33,7 +33,7 @@ var totalTeam2Players = 0;
 
 /************** WEBSOCKET ************************/
 
-conn = new WebSocket('ws://localhost:8080');
+conn = new WebSocket('ws://69.21.138.196:7862');
 if(!document.webkitHidden) {
   conn.addEventListener('open', function (event) {
     conn.send(JSON.stringify({"id":"newUser", "name":name}));

@@ -1,5 +1,5 @@
 const webSocket = require('ws');
-const wss = new webSocket.Server({port:8080});
+const wss = new webSocket.Server({port:7862});
 const Game = require('./Classes/Game.js');
 
 var game = new Game();
