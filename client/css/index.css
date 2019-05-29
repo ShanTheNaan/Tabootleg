@@ -1,0 +1,41 @@
+@font-face {
+    font-family: Bebas;
+    font-weight: bold;
+    src:url('bebas/BebasNeue\ Bold.otf');
+  }
+
+  body {
+    width: 100vw;
+    height: 100vh;
+    background-image: url("background.jpg");
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+  }
+
+  h1 {
+    font-family: Bebas;
+    text-shadow: 2px 2px 4px #000000;
+    font-size: 15vw;
+  }
+
+  .login {
+    margin-top: 10%;
+    margin-left: 30%;
+    margin-right: 30%;
+    padding: 0%;
+  }
+
+  #createRoomButton {      
+    margin: 0 auto;
+    display: block;
+    margin-top: 20px;
+  }
+
+  #roomUrl {
+    color: #495057;
+    background-color: #e9ecef;
+  }
+
+  .modal-footer {
+    justify-content: center;
+  }

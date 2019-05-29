@@ -22,36 +22,39 @@ var currentPlayer = "";
 var team;
 var conn;
 
-/************** WEBSOCKET ************************/
+/************** Socket.io ************************/
 
-conn = new WebSocket('ws://localhost:8080');
-if(!document.webkitHidden) {
-  conn.addEventListener('open', function (event) {
-    conn.send(JSON.stringify({"id":"newUser", "name":name}));
-  });
-}
+const socket = io(window.location);
 
-conn.onmessage = function(event) {
-  var data = JSON.parse(event.data);
-  console.log(data);
 
-  switch (data.id) {
-    case 'newPlayer':
-      newPlayer(data.name);
-      break;
+// conn = new WebSocket('ws://localhost:8080');
+// if(!document.webkitHidden) {
+//   conn.addEventListener('open', function (event) {
+//     conn.send(JSON.stringify({"id":"newUser", "name":name}));
+//   });
+// }
 
-    case 'allPlayers':
-      allPlayers(data.data);
-      break;
+// conn.onmessage = function(event) {
+//   var data = JSON.parse(event.data);
+//   console.log(data);
 
-    case 'startRound':
-        startRound(data);
-        break;
+//   switch (data.id) {
+//     case 'newPlayer':
+//       newPlayer(data.name);
+//       break;
 
-    default:
-      console.log("Error: Incorrect Server Message");
-  }
-}
+//     case 'allPlayers':
+//       allPlayers(data.data);
+//       break;
+
+//     case 'startRound':
+//         startRound(data);
+//         break;
+
+//     default:
+//       console.log("Error: Incorrect Server Message");
+//   }
+// }
 
 /********************************************/
 

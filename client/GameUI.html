@@ -9,7 +9,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="css/GameUI.css">
+    <link rel="stylesheet" type="text/css" href="GameUI.css">
+    <script src="/socket.io/socket.io.js"></script>
+
 </head>
 
 <body>
@@ -71,9 +73,17 @@
     </div>
   </div>
 
+  <div class="game-code-title">
+    <p> Game Code: </p>
+  </div>
+
+  <div class="game-code">
+    <p> ABCD </p>
+  </div>
+
 </div>
 <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
-<script src="js/client.js"></script>
+<script src="client.js"></script>
 </body>
 
 </html>

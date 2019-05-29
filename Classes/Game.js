@@ -1,10 +1,11 @@
+/* Player Card Class */
 class Player {
   constructor (name, conn) {
     this.conn = conn;
     this.name = name;
   }
 }
-
+/* Taboo Card Class */
 class TabooCard {
   constructor(name, bannedWords) {
     this.cardName = name;
@@ -20,6 +21,7 @@ class TabooCard {
   }
 }
 
+/***** Game Class *****/
 class Game {
 
   constructor () {
